@@ -33,15 +33,13 @@
    become: true
    tasks:
 
-     # Use apt module
-     - name: Install docker.io
+   - name: Install docker.io
      apt:
        update_cache: yes
        force_apt_get: yes
        name: docker.io
        state: present
     
-     # Use apt module
      - name: Install python3-pip
        apt:
        force_apt_get: yes
@@ -54,11 +52,9 @@
          name: docker
          state: present
     
-     # Use command module
      - name: increase virtual mem
      command: sysctl -w vm.max_map_count=262144
     
-     # Use sysctl module
     - name: use more mem
        sysctl:
           name: vm.max_map_count
@@ -66,7 +62,6 @@
           state: present
           reload: yes
      
-    # Use docker_container module
     - name: download and launch a docker ELK container
       docker_container:
          name: elk
