@@ -5,8 +5,8 @@ The files in this repository were used to configure the network depicted below.
 ![TODO: Update the path with the name of your diagram](Images/diagram_filename.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the everything.yml file may be used to install only certain pieces of it, such as Filebeat.
-The everything.yml file combines the individual playbooks used in this setup. I recommend using the individual playbooks rather than the 'everything' file when recreatin this build.
-The "everything' file only contains the playbooks, you will still need to update your ansible hosts file, the metricbeat config file, and filebeat config file.
+The everything.yml file combines the individual playbooks used in this setup. I recommend using the individual playbooks rather than the 'everything' file when recreating this build.
+The "everything' file only contains the playbooks, you will still need to update your ansible hosts file, the metricbeat config file, and filebeat config file as appropriate for your build.
 
   - [Everything Playbook](everything.yml)
 
@@ -32,11 +32,12 @@ information that can be used in an attack.
 The advantage of using a jump box is the increased security. It further segregates a target network and users by adding another layer of
 segregation. Jump boxes are also generally used for amdinistrative purposes, so there aren't any risks of opening a maliciuous email or 
 clicking a malicious link in a web browser. 
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
-- _TODO: What does Filebeat watch for?_
-- _TODO: What does Metricbeat record?_
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the system services and system log data.
+ - Beats modules are used as lightweight data shippers, that centralize and forward data for monitoring purposes. There are many different
+ Beats modules, in this stack, we will be using Filebeat and Metricbeat.
+- Filebeat collects log data from the servers/machines it is installed onto, making it easier to monitor any log changes across multiple machines.
+- Metricbeat collects metrics, such as disk usage and memory usage for various system processes and services. 
 
 The configuration details of each machine may be found below.
 _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
