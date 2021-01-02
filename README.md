@@ -84,25 +84,36 @@ The playbook implements the following tasks:
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
+[docker ps](images/docker_ps_elk.JPG)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
-- _TODO: List the IP addresses of the machines you are monitoring_
+
+| Name     | IP Address |
+|----------|------------|
+| Web1     | 10.0.0.7   |
+| Web2     | 10.0.0.6   |
+| Web3     | 10.0.0.8   |
+
 
 We have installed the following Beats on these machines:
-- _TODO: Specify which Beats you successfully installed_
+- Filebeats
+- Metricbeats
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+Filebeat will harvest log data from specified locations, such as /var/logs/*.log and send it out to Elasticsearch. You should expect to see syslog data and SSH login data.
+Metricbeat will periodically collect metrics from system process and services running. You should expect to see CPU and memory usage. 
+
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+- Copy the elk_install.yml file to /etc/ansible/playbooks (note: you don't need a "playbooks" directory, but it helps to keep things organized.)
+- Update the hosts file to include your ELK server IP address. You will need to create a new host group, I used ELK, and supply the ELK server IP 
+  address within the new group.
+- Run the playbook, and navigate to your ELK server IP via SSH and run 'docker ps' to check that the installation worked as expected.
+- Once everything is running, you should be able to view the data by going to http://<ELK server public IP>:5601/app/kibana
 
 _TODO: Answer the following questions to fill in the blanks:_
 - _Which file is the playbook? Where do you copy it?_
