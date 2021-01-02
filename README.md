@@ -57,25 +57,30 @@ Only the Jump Box machine can accept connections from the Internet. Access to th
 67.165.199.178
 
 Machines within the network can only be accessed by the Jump Box via a Docker Ansible container.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+The Jump Box with IP 10.0.0.4 is how the Elk server is accessed.
+
 
 A summary of the access policies in place can be found in the table below.
 
 | Name     | Publicly Accessible | Allowed IP Addresses |
 |----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
+| Jump Box | Yes                 | 67.165.199.178       |
+| ELK      | No                  | 10.0.0.4             |
 |          |                     |                      |
 
 ### Elk Configuration
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because
+automating the configuration means we can configure every machine in our network at the same time, rather than going through each one
+individually. In this case we've only congfigured 1 ELK server, and 3 webservers using Ansible,  but imagine having a system with dozens
+or hundreds of machines. Automation saves a lot of time and headaches.
 
 The playbook implements the following tasks:
 - _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+- Installs Docker
+- Installs Python3 Pip and the Docker Module via Pip
+- Increases and allows enough system memory to allow ELK to run
+- Finally, downloads sebp/elk image and launches it.
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
