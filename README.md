@@ -44,7 +44,7 @@ _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdow
 
 | Name     | Function   | IP Address | Operating System |
 |----------|----------  |------------|------------------|
-| Jump Box | Gateway    | 10.0.0.1   | Linux            |
+| Jump Box | Gateway    | 10.0.0.4   | Linux            |
 | Web1     | DVWA Server| 10.0.0.7   | Linux            |
 | Web2     | DVWA Server| 10.0.0.6   | Linux            |
 | Web3     | DVWA Server| 10.0.0.8   | Linux            |
@@ -53,10 +53,10 @@ _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdow
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the Jump Box machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
+67.165.199.178
 
-Machines within the network can only be accessed by _____.
+Machines within the network can only be accessed by the Jump Box via a Docker Ansible container.
 - _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
 
 A summary of the access policies in place can be found in the table below.
