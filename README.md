@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![TODO: Update the path with the name of your diagram](Images/diagram_filename.png)
+[ELK Network Diagram](images/network_diagram_elk.JPG)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the everything.yml file may be used to install only certain pieces of it, such as Filebeat.
 The everything.yml file combines the individual playbooks used in this setup. I recommend using the individual playbooks rather than the 'everything' file when recreating this build.
