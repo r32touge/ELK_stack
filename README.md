@@ -8,7 +8,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
 The everything.yml file combines the individual playbooks used in this setup. I recommend using the individual playbooks rather than the 'everything' file when recreating this build.
 The "everything' file only contains the playbooks, you will still need to update your ansible hosts file, the metricbeat config file, and filebeat config file as appropriate for your build.
 
-  - [Everything Playbook](everything.yml)
+  - [Everything Playbook](Ansible/everything.yml)
 
 This document contains the following details:
 - Description of the Topology
@@ -109,15 +109,8 @@ Metricbeat will periodically collect metrics from system process and services ru
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the elk_install.yml file to /etc/ansible/playbooks (note: you don't need a "playbooks" directory, but it helps to keep things organized.)
-- Update the hosts file to include your ELK server IP address. You will need to create a new host group, I used ELK, and supply the ELK server IP 
+- Copy the [elk_install.yml](Ansible/elk_install.yml) file to /etc/ansible/playbooks (note: you don't need a "playbooks" directory, but it helps to keep things organized.)
+- Update the [hosts](Ansible/Ansible_host_example) file to include your ELK server IP address. You will need to create a new host group, I used ELK, and supply the ELK server IP 
   address within the new group.
 - Run the playbook, and navigate to your ELK server IP via SSH and run 'docker ps' to check that the installation worked as expected.
 - Once everything is running, you should be able to view the data by going to http://<ELK server public IP>:5601/app/kibana
-
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
-
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
