@@ -1,124 +1,129 @@
 ---
- - name: Config webserver vms
-    hosts: webservers
-    become: true
-    tasks
+- name: Config webserver vms
+   hosts: webservers
+   become: true
+   tasks:
+   
+   - name: Install docker
+     apt:
+       name: docker.io
+       state: present
+       update_cache: yes
+       
+   - name: Install python3-pip
+     apt:
+       name: python3-pip
+       state: present
     
-    - name: Install docker
-      apt:
-        name: docker.io
+    - name: Docker via pip
+      pip:
+        name: docker
         state: present
-        update_cache: yes
         
-    - name: Install python3-pip
-      apt:
-        name: python3-pip
-        state: present
-     
-     - name: Docker via pip
-       pip:
-         name: docker
-         state: present
-         
-     - name: Install DVWA container
-       docker_container:
-         name: dvwa
-         image: cyberxsecurity/dvwa
-         restart_policy: always
-         published_ports: 80:80
+    - name: Install DVWA container
+      docker_container:
+        name: dvwa
+        image: cyberxsecurity/dvwa
+        restart_policy: always
+        published_ports: 80:80
 
- - name: Configure Elk VM with Docker
+- name: Configure Elk VM with Docker
    hosts: elk
    remote_user: azadmin
    become: true
    tasks:
 
-   - name: Install docker.io
-     apt:
-       update_cache: yes
-       force_apt_get: yes
-       name: docker.io
-       state: present
-    
-     - name: Install python3-pip
-       apt:
-       force_apt_get: yes
-       name: python3-pip
-       state: present
-  
-     # Use pip module (It will default to pip3)
-     - name: Install Docker module
-         pip:
-         name: docker
-         state: present
-    
-     - name: increase virtual mem
-     command: sysctl -w vm.max_map_count=262144
-    
-    - name: use more mem
-       sysctl:
-          name: vm.max_map_count
-          value: '262144'
+    # Use apt module
+    - name: Install docker.io
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        name: docker.io
+        state: present
+   
+    # Use apt module
+    - name: Install python3-pip
+      apt:
+        force_apt_get: yes
+        name: python3-pip
+        state: present
+ 
+    # Use pip module (It will default to pip3)
+    - name: Install Docker module
+        pip:
+          name: docker
           state: present
-          reload: yes
-     
-    - name: download and launch a docker ELK container
-      docker_container:
-         name: elk
-         image: sebp/elk:761
-         restart_policy: always
-         # Please list ports that ELK runs on
-         published_ports:
-           - 5601:5601
-           - 9200:9200
+   
+    # Use command module
+    - name: increase virtual mem
+      command: sysctl -w vm.max_map_count=262144
+   
+    # Use sysctl module
+   - name: use more mem
+      sysctl:
+         name: vm.max_map_count
+         value: '262144'
+         state: present
+         reload: yes
+    
+   # Use docker_container module
+   - name: download and launch a docker ELK container
+     docker_container:
+        name: elk
+        image: sebp/elk:761
+        restart_policy: always
+        # Please list ports that ELK runs on
+        published_ports:
+          - 5601:5601
+          - 9200:9200
 
- - name: installing and launching filebeat
+- name: installing and launching filebeat
   hosts: webservers
   become: yes
   tasks:
 
-  - name: download filebeat deb
-    command: curl -L -O curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.6.2-amd64.deb
+   - name: download filebeat deb
+     command: curl -L -O curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.6.2-amd64.deb
 
- 
-  - name: install filebeat deb
-    command: dpkg -i filebeat-7.6.2-amd64.deb
 
-  - name: drop in filebeat.yml 
-    copy:
-      src: /etc/ansible/files/filebeat-config.yml
-      dest: /etc/filebeat/files/
+   - name: install filebeat deb
+     command: dpkg -i filebeat-7.6.2-amd64.deb
 
-  - name: enable and configure system module
-    command: filebeat modules enable system
+   - name: drop in filebeat.yml 
+     copy:
+       src: /etc/ansible/files/filebeat-config.yml
+       dest: /etc/filebeat/files/
 
-  - name: setup filebeat
-    command: filebeat setup
+   - name: enable and configure system module
+     command: filebeat modules enable system
 
-  - name: start filebeat service
-    command: service filebeat start
+   - name: setup filebeat
+     command: filebeat setup
+
+   - name: start filebeat service
+     command: service filebeat start
  
 - name: Install metric beat
   hosts: webservers
   become: true
   tasks:
-  - name: Download metricbeat
-    command: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.6.0-amd64.deb
+   - name: Download metricbeat
+     command: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.6.0-amd64.deb
 
-  - name: install metricbeat
+   - name: install metricbeat
     command: dpkg -i metricbeat-7.6.0-amd64.deb
 
     # Use copy module - will copy file from ansible and create directory and file in hosts
-  - name: drop in metricbeat config
-    copy:
-      src: /etc/ansible/metricbeat-config.yml #source may vary depending on where you save your files
-      dest: /etc/metricbeat/metricbeat.yml
+   - name: drop in metricbeat config
+     copy:
+       src: /etc/ansible/metricbeat-config.yml #source may vary depending on where you save your files
+       dest: /etc/metricbeat/metricbeat.yml
+ 
+   - name: enable and configure docker module for metric beat
+     command: metricbeat modules enable docker
 
-  - name: enable and configure docker module for metric beat
-    command: metricbeat modules enable docker
-
-  - name: setup metric beat
+   - name: setup metric beat
     command: metricbeat setup
 
-  - name: start metric beat
-    command: service metricbeat start
+   - name: start metric beat
+     command: service metricbeat start
